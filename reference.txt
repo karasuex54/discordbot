@@ -1,0 +1,3 @@
+「discord.pyのBot Commands Frameworkを用いたBot開発」
+https://qiita.com/Lazialize/items/81f1430d9cd57fbd82fb
+bot command の理解とcogsについて
