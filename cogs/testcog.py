@@ -27,5 +27,9 @@ class TestCog(commands.Cog):
     async def _list(self, ctx):
         await ctx.send('$list')
 
+    @commands.command(aliases=['hh'])
+    async def hogehoge(self, ctx):
+        await ctx.send('$hogehoge or $hh')
+
 def setup(bot):
     bot.add_cog(TestCog(bot))
