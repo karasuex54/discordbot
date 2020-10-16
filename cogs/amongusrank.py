@@ -14,9 +14,12 @@ class AmongUsRankCog(commands.Cog):
     @aurc.command()
     async def init(self, ctx):
         guild_id = ctx.guild.id
-        voice_channel_id_all = ctx.guild.voice_channels
-        for i in voice_channel_id_all:
-            print(i.name,i.id)
+        voice_channel_all = ctx.guild.voice_channels
+        for channel in voice_channel_all:
+            channel_name = channel.name
+            if len(channel_name) <2:continue
+            if channel_name[-2:] == '-A':
+                print(channel.name,channel.id)
 
 def setup(bot):
     bot.add_cog(AmongUsRankCog(bot))
