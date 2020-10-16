@@ -16,7 +16,7 @@ class AmongUsRankCog(commands.Cog):
         guild_id = ctx.guild.id
         voice_channel_id_all = ctx.guild.voice_channels
         for i in voice_channel_id_all:
-            print(i.id)
+            print(i.name,i.id)
 
 def setup(bot):
     bot.add_cog(AmongUsRankCog(bot))
