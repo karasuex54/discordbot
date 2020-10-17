@@ -17,9 +17,14 @@ class AmongUsRankCog(commands.Cog):
         voice_channel_all = ctx.guild.voice_channels
         for channel in voice_channel_all:
             channel_name = channel.name
-            if len(channel_name) <2:continue
-            if channel_name[-2:] == '-A':
+            if len(channel_name) < 2:continue
+            if channel_name[-2:] == '-':
                 print(channel.name,channel.id)
+        channel_id = 766689793521352734
+        voice_channel = self.bot.get_channel(channel_id)
+        print("----- voice_channel info -----")
+        for mem in voice_channel.members:
+            print(mem)
 
 def setup(bot):
     bot.add_cog(AmongUsRankCog(bot))
