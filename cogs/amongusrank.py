@@ -12,19 +12,16 @@ class AmongUsRankCog(commands.Cog):
             await ctx.send('このコマンドにはサブコマンドが必要です。')
 
     @aurc.command()
-    async def init(self, ctx):
-        guild_id = ctx.guild.id
-        voice_channel_all = ctx.guild.voice_channels
-        for channel in voice_channel_all:
-            channel_name = channel.name
-            if len(channel_name) < 2:continue
-            if channel_name[-2:] == '-':
-                print(channel.name,channel.id)
-        channel_id = 766689793521352734
-        voice_channel = self.bot.get_channel(channel_id)
-        print("----- voice_channel info -----")
-        for mem in voice_channel.members:
-            print(mem)
+    async def test(self, ctx):
+        await ctx.send('target')
+        print('-'*10 + 'textchannel'+ '-'*10)
+        print(self.bot.user.id)
+        channel = ctx.channel
+        async for message in channel.history(limit=10):
+            if self.bot.user.id == message.author.id:
+                await message.add_reaction('\U0001f44d')
+                break
+
 
 def setup(bot):
     bot.add_cog(AmongUsRankCog(bot))
