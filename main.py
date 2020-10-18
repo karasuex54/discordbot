@@ -11,8 +11,8 @@ INITIAL_EXTENSIONS = [
 ]
 
 class MyBot(commands.Bot):
-    def __init__(self, command_prefix):
-        super().__init__(command_prefix)
+    def __init__(self, command_prefix, intents):
+        super().__init__(command_prefix,intents=intents)
         for cog in INITIAL_EXTENSIONS:
             try:
                 self.load_extension(cog)
@@ -26,5 +26,5 @@ class MyBot(commands.Bot):
         print('-'*10)
 
 if __name__ == '__main__':
-    bot = MyBot(command_prefix='$')
+    bot = MyBot(command_prefix='$', intents=discord.Intents.all())
     bot.run(TOKEN_KEY)
