@@ -40,6 +40,24 @@ class AmongUsRankCog(commands.Cog):
                 print(user.name, end=" ")
             print()
 
+    @aurc.command()
+    async def info(self, ctx):
+        embed = discord.Embed(title='nice bot', description='Nicest bot there is ever.', color=0xff0000)
+        embed.set_author(name='aiueo', icon_url='https://www.4gamer.net/games/534/G053435/20201013054/TN/002.jpg')
+        embed.add_field(name='Author', value='<YOUR-USERNAME>')
+        embed.add_field(name='Server count', value=f'{len(self.bot.guilds)}')
+        embed.add_field(name='Invite', value='[Invite link](<insert your OAuth invitation link here>)')
+
+        await ctx.send(embed=embed)
+
+        channel = ctx.channel
+        mes = None
+        async for message in channel.history(limit=10):
+            if self.bot.user.id == message.author.id:
+                await message.add_reaction('\U0001f44d')
+                mes = message
+                break
+        print(mes.content)
 
 def setup(bot):
     bot.add_cog(AmongUsRankCog(bot))
