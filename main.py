@@ -20,7 +20,7 @@ class MyBot(commands.Bot):
                 traceback.print_exc()
 
     async def on_ready(self):
-        print('-'*10)
+        print('Logged in as')
         print(self.user.name)
         print(self.user.id)
         print('-'*10)
