@@ -13,3 +13,7 @@ UnicodeのEmoji一覧
 「【クラウドDB比較】無料枠で提供されるサービスレベル」
 https://qiita.com/nh321/items/e8c63b02e3fa9c28837f
 クラウドDBの選定
+
+「SQLAlchemyの基本的な使い方」
+https://qiita.com/ariku/items/75799665acd09520bed2
+sqlalchemyの学習

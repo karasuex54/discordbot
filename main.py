@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 
 import mytoken as mt
+import models as md
 
 TOKEN_KEY = mt.token_key()
 DEVELOPER_ID = mt.developer_id()
