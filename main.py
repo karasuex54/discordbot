@@ -7,7 +7,7 @@ TOKEN_KEY = mt.token_key()
 DEVELOPER_ID = mt.developer_id()
 
 INITIAL_EXTENSIONS = [
-    'cogs.amongusrank'
+    'cogs.amongus'
 ]
 
 class MyBot(commands.Bot):
