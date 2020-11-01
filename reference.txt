@@ -5,3 +5,15 @@ bot command の理解とcogsについて
 「amongusdiscord github」
 https://github.com/denverquane/amongusdiscord
 among usの画像を拝借
+
+「UnicodeのEmojiの一覧」
+https://ja.wikipedia.org/wiki/Unicode%E3%81%AEEmoji%E3%81%AE%E4%B8%80%E8%A6%A7
+UnicodeのEmoji一覧
+
+「【クラウドDB比較】無料枠で提供されるサービスレベル」
+https://qiita.com/nh321/items/e8c63b02e3fa9c28837f
+クラウドDBの選定
+
+「SQLAlchemyの基本的な使い方」
+https://qiita.com/ariku/items/75799665acd09520bed2
+sqlalchemyの学習

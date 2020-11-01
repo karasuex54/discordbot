@@ -2,12 +2,13 @@ import discord
 from discord.ext import commands
 
 import mytoken as mt
+import models as md
 
 TOKEN_KEY = mt.token_key()
 DEVELOPER_ID = mt.developer_id()
 
 INITIAL_EXTENSIONS = [
-    'cogs.amongusrank'
+    'cogs.amongus'
 ]
 
 class MyBot(commands.Bot):
@@ -20,7 +21,7 @@ class MyBot(commands.Bot):
                 traceback.print_exc()
 
     async def on_ready(self):
-        print('-'*10)
+        print('Logged in as')
         print(self.user.name)
         print(self.user.id)
         print('-'*10)
