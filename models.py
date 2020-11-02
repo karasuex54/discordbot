@@ -1,5 +1,6 @@
 import psycopg2
-from sqlalchemy import Column, DateTime, Integer, String, create_engine
+from sqlalchemy import (Column, DateTime, Integer, String, and_, create_engine,
+                        or_)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.functions import current_timestamp
@@ -8,7 +9,7 @@ import mytoken as mt
 
 DATABASE_URL = mt.database_url()
 
-engine = create_engine('sqlite:///sample.sqlite3')
+engine = create_engine('sqlite:///test.db')
 #engine = create_engine(DATABASE_URL)
 Base = declarative_base()
 
@@ -60,8 +61,9 @@ def read_notices():
 
 def update_notice(guild_id, channel_id):
     session = sessionmaker(engine)()
-    notice = session.query(Notices).filter(Notices.guild_id==guild_id)
+    notice = session.query(Notices).filter(Notices.guild_id==guild_id).first()
     notice.channel_id = channel_id
+    session.commit()
     session.close()
 
 def create_plan(user_id, channel_id, message_id):
@@ -92,6 +94,9 @@ def read_reactions():
 
 def update_reaction(reaction, user_id, channel_id, message_id):
     session = sessionmaker(engine)()
-    reaction = session.query(Reactions).filter(Reactions.user_id==user_id, Reactions.channel_id==channel_id, Reactions.message_id == message_id)
-    reaction.reaction = reaction
+    reaction_a = session.query(Reactions).filter(
+        and_(Reactions.user_id==user_id, Reactions.channel_id==channel_id, Reactions.message_id==message_id
+        )).first()
+    reaction_a.reaction = reaction
+    session.commit()
     session.close()
