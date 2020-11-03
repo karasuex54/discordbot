@@ -9,8 +9,7 @@ import mytoken as mt
 
 DATABASE_URL = mt.database_url()
 
-engine = create_engine('sqlite:///test.db')
-#engine = create_engine(DATABASE_URL)
+engine = create_engine(DATABASE_URL)
 Base = declarative_base()
 
 class Notices(Base):
