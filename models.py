@@ -18,6 +18,7 @@ class Notices(Base):
     id = Column(Integer, primary_key=True)
     guild_id = Column(String)
     channel_id = Column(String)
+    create_at = Column(DateTime, nullable=False, server_default = current_timestamp())
 
 class Plans(Base):
     __tablename__ = 'plans'
@@ -26,16 +27,30 @@ class Plans(Base):
     user_id = Column(String)
     channel_id = Column(String)
     message_id = Column(String)
+    start_at = Column(DateTime, nullable=True)
     create_at = Column(DateTime, nullable=False, server_default = current_timestamp())
+
 
 class Reactions(Base):
     __tablename__ = 'reactions'
 
     id = Column(Integer, primary_key=True)
-    reaction = Column(String)
+    stump = Column(String)
     user_id = Column(String)
     channel_id = Column(String)
     message_id = Column(String)
+    create_at = Column(DateTime, nullable=False, server_default = current_timestamp())
+
+
+class TimeCounts(Base):
+    __tablename__ = 'timecounts'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(String)
+    time_counts = Column(Integer, server_default = "0")
+    create_at = Column(DateTime, nullable=False, server_default = current_timestamp())
+
+
 
 Base.metadata.create_all(engine)
 
@@ -78,9 +93,9 @@ def read_plans():
     session.close()
     return plans
 
-def create_reaction(reaction, user_id, channel_id, message_id):
+def create_reaction(stump, user_id, channel_id, message_id):
     session = sessionmaker(engine)()
-    reaction = Reactions(reaction=reaction, user_id=user_id, channel_id=channel_id, message_id=message_id)
+    reaction = Reactions(stump=stump, user_id=user_id, channel_id=channel_id, message_id=message_id)
     session.add(reaction)
     session.commit()
     session.close()
@@ -91,11 +106,33 @@ def read_reactions():
     session.close()
     return reactions
 
-def update_reaction(reaction, user_id, channel_id, message_id):
+def update_reaction(stump, user_id, channel_id, message_id):
     session = sessionmaker(engine)()
-    reaction_a = session.query(Reactions).filter(
+    reaction = session.query(Reactions).filter(
         and_(Reactions.user_id==user_id, Reactions.channel_id==channel_id, Reactions.message_id==message_id
         )).first()
-    reaction_a.reaction = reaction
+    reaction.stump = stump
+    session.commit()
+    session.close()
+
+def create_timecounts(user_id):
+    session = sessionmaker(engine)()
+    timecounts = TimeCounts(user_id=user_id)
+    session.add(timecounts)
+    session.commit()
+    session.close()
+
+def read_timecounts():
+    session = sessionmaker(engine)()
+    timecounts = session.query(TimeCounts).all()
+    session.close()
+    return timecounts
+
+def update_timecounts(user_id, time_count):
+    session = sessionmaker(engine)()
+    timecounts = session.query(TimeCounts).filter(
+        and_(TimeCounts.user_id==user_id
+        )).first()
+    timecounts.time_counts += time_count
     session.commit()
     session.close()

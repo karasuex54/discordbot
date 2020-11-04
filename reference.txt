@@ -17,3 +17,6 @@ https://qiita.com/nh321/items/e8c63b02e3fa9c28837f
 「SQLAlchemyの基本的な使い方」
 https://qiita.com/ariku/items/75799665acd09520bed2
 sqlalchemyの学習
+
+「database」
+https://dbdiagram.io/d/5f8ab2963a78976d7b780197
