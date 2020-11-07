@@ -1,9 +1,10 @@
+from time import time
+
 import psycopg2
 from sqlalchemy import (Column, DateTime, Integer, String, and_, create_engine,
                         or_)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.sql.functions import current_timestamp
 
 import mytoken as mt
 
@@ -18,7 +19,7 @@ class Notices(Base):
     id = Column(Integer, primary_key=True)
     guild_id = Column(String)
     channel_id = Column(String)
-    create_at = Column(DateTime, nullable=False, server_default = current_timestamp())
+    epoch_time = Column(Integer, nullable=False)
 
 class Plans(Base):
     __tablename__ = 'plans'
@@ -27,8 +28,7 @@ class Plans(Base):
     user_id = Column(String)
     channel_id = Column(String)
     message_id = Column(String)
-    start_at = Column(DateTime, nullable=True)
-    create_at = Column(DateTime, nullable=False, server_default = current_timestamp())
+    epoch_time = Column(Integer, nullable=False)
 
 
 class Reactions(Base):
@@ -39,7 +39,7 @@ class Reactions(Base):
     user_id = Column(String)
     channel_id = Column(String)
     message_id = Column(String)
-    create_at = Column(DateTime, nullable=False, server_default = current_timestamp())
+    epoch_time = Column(Integer, nullable=False)
 
 
 class TimeCounts(Base):
@@ -48,7 +48,7 @@ class TimeCounts(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(String)
     time_counts = Column(Integer, server_default = "0")
-    create_at = Column(DateTime, nullable=False, server_default = current_timestamp())
+    epoch_time = Column(Integer, nullable=False)
 
 
 
@@ -62,7 +62,7 @@ Base.metadata.create_all(engine)
 
 def create_notice(guild_id, channel_id):
     session = sessionmaker(engine)()
-    notice = Notices(guild_id=guild_id, channel_id=channel_id)
+    notice = Notices(guild_id=guild_id, channel_id=channel_id, epoch_time=int(time()))
     session.add(notice)
     session.commit()
     session.close()
@@ -82,7 +82,7 @@ def update_notice(guild_id, channel_id):
 
 def create_plan(user_id, channel_id, message_id):
     session = sessionmaker(engine)()
-    plan = Plans(user_id=user_id, channel_id=channel_id, message_id=message_id)
+    plan = Plans(user_id=user_id, channel_id=channel_id, message_id=message_id, epoch_time=int(time()))
     session.add(plan)
     session.commit()
     session.close()
@@ -95,7 +95,7 @@ def read_plans():
 
 def create_reaction(stump, user_id, channel_id, message_id):
     session = sessionmaker(engine)()
-    reaction = Reactions(stump=stump, user_id=user_id, channel_id=channel_id, message_id=message_id)
+    reaction = Reactions(stump=stump, user_id=user_id, channel_id=channel_id, message_id=message_id, epoch_time=int(time()))
     session.add(reaction)
     session.commit()
     session.close()
@@ -117,7 +117,7 @@ def update_reaction(stump, user_id, channel_id, message_id):
 
 def create_timecounts(user_id):
     session = sessionmaker(engine)()
-    timecounts = TimeCounts(user_id=user_id)
+    timecounts = TimeCounts(user_id=user_id, epoch_time=int(time()))
     session.add(timecounts)
     session.commit()
     session.close()
