@@ -3,6 +3,8 @@ from discord.ext import commands, tasks
 
 import models as md
 
+from datetime import datetime
+
 from time import time
 
 class AmongUs(commands.Cog):
@@ -34,9 +36,10 @@ class AmongUs(commands.Cog):
                 members[self.plan_stumps.index(r.stump)].append(self.bot.get_user(int(r.user_id)).name)
         return members
 
-
-    def make_plan(self, author_id, members):
-        embed = discord.Embed(title='among us やる人募集！', description='下のリアクションを押してね', color=0x56f000)
+    def make_plan(self, author_id, members, epoch_time):
+        dt = datetime.fromtimestamp(epoch_time)
+        dt_str = dt.strftime('%m/%d')
+        embed = discord.Embed(title=dt_str+' among us やる人募集！', description='下のリアクションを押してね', color=0x56f000)
         embed.add_field(name='made by', value=self.bot.get_user(int(author_id)).name, inline=False)
         embed.add_field(name=self.plan_stumps[0]+' 19:00 から参加可能', value='{} 人 : {}'.format(len(members[0]), ', '.join(members[0])), inline=False)
         embed.add_field(name=self.plan_stumps[1]+' 20:00 から参加可能', value='{} 人 : {}'.format(len(members[1]), ', '.join(members[1])), inline=False)
@@ -71,7 +74,7 @@ class AmongUs(commands.Cog):
                 else:
                     await reaction.clear()
             members = self.get_reaction_members(channel_id, message_id)
-            embed = self.make_plan(plan.user_id, members)
+            embed = self.make_plan(plan.user_id, members, plan.epoch_time)
             await message.edit(embed=embed)
 
 
