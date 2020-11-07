@@ -1,6 +1,5 @@
 from time import time
 
-import psycopg2
 from sqlalchemy import (Column, DateTime, Integer, String, and_, create_engine,
                         or_)
 from sqlalchemy.ext.declarative import declarative_base
