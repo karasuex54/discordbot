@@ -1,17 +1,16 @@
+from datetime import datetime
+from time import time
+
 import discord
+import models as md
+import mytoken as mt
 from discord.ext import commands, tasks
 
-import models as md
-
-from datetime import datetime
-
-from time import time
 
 class AmongUs(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.loop_time = time()
-        self.loop_function.start()
+        self.guild_id = mt.amongus_guild_id()
         self.role_names = ['BEGINNER','BRONZE','SILVER','GOLD']
         self.plan_stumps = ['\U00000030\U0000FE0F\U000020E3', '\U00000031\U0000FE0F\U000020E3', '\U00000032\U0000FE0F\U000020E3', '\U00000033\U0000FE0F\U000020E3', '\U00000034\U0000FE0F\U000020E3', '\U0001F53C', '\U0000274C']
 
@@ -132,12 +131,10 @@ class AmongUs(commands.Cog):
 
     @tasks.loop(seconds = 5.0)
     async def loop_function(self):
-        loopstart = time()
         await self.count_time_in_voice_channel()
         await self.update_plan()
         await self.give_role()
-        self.loop_time = time()
-        print(self.loop_time-loopstart)
+
 
     @loop_function.before_loop
     async def before_loop_function(self):
