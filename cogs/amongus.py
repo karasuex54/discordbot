@@ -13,6 +13,7 @@ class AmongUs(commands.Cog):
         self.guild_id = mt.amongus_guild_id()
         self.role_names = ['BEGINNER','BRONZE','SILVER','GOLD']
         self.plan_stumps = ['\U00000030\U0000FE0F\U000020E3', '\U00000031\U0000FE0F\U000020E3', '\U00000032\U0000FE0F\U000020E3', '\U00000033\U0000FE0F\U000020E3', '\U00000034\U0000FE0F\U000020E3', '\U0001F53C', '\U0000274C']
+        self.loop_function.start()
 
     def is_notice_in_guild_id(self, guild_id):
         for notice in md.read_notices():
@@ -131,6 +132,7 @@ class AmongUs(commands.Cog):
 
     @tasks.loop(seconds = 5.0)
     async def loop_function(self):
+        print('aiueo')
         await self.count_time_in_voice_channel()
         await self.update_plan()
         await self.give_role()
@@ -166,12 +168,13 @@ class AmongUs(commands.Cog):
         if is_notice:
             channel = self.bot.get_channel(int(channel_id))
             user_id = str(ctx.author.id)
-            embed = self.make_plan(user_id, [[] for i in range(len(self.plan_stumps))])
+            epoch_time = int(time())
+            embed = self.make_plan(user_id, [[] for i in range(len(self.plan_stumps))], epoch_time)
             msg = await channel.send(embed=embed)
             for stump in self.plan_stumps:
                 await msg.add_reaction(stump)
             message_id = str(msg.id)
-            md.create_plan(user_id, channel_id, message_id)
+            md.create_plan(user_id, channel_id, message_id, epoch_time)
         else:
             await ctx.send('plz "$au notice"')
 

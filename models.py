@@ -79,9 +79,9 @@ def update_notice(guild_id, channel_id):
     session.commit()
     session.close()
 
-def create_plan(user_id, channel_id, message_id):
+def create_plan(user_id, channel_id, message_id, epoch_time):
     session = sessionmaker(engine)()
-    plan = Plans(user_id=user_id, channel_id=channel_id, message_id=message_id, epoch_time=int(time()))
+    plan = Plans(user_id=user_id, channel_id=channel_id, message_id=message_id, epoch_time=epoch_time)
     session.add(plan)
     session.commit()
     session.close()
