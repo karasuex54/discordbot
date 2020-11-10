@@ -12,43 +12,34 @@ DATABASE_URL = mt.database_url()
 engine = create_engine(DATABASE_URL)
 Base = declarative_base()
 
-class Notices(Base):
-    __tablename__ = 'notices'
+class AmongusPlans(Base):
+    __tablename__ = 'amongus_plans'
 
     id = Column(Integer, primary_key=True)
     guild_id = Column(String)
     channel_id = Column(String)
-    epoch_time = Column(Integer, nullable=False)
-
-class Plans(Base):
-    __tablename__ = 'plans'
-
-    id = Column(Integer, primary_key=True)
-    user_id = Column(String)
-    channel_id = Column(String)
+    author_id = Column(String)
     message_id = Column(String)
     epoch_time = Column(Integer, nullable=False)
 
 
-class Reactions(Base):
-    __tablename__ = 'reactions'
+class AmongusReactions(Base):
+    __tablename__ = 'amongus_reactions'
 
     id = Column(Integer, primary_key=True)
+    message_id = Column(String)
+    user_id = Column(String)
     stump = Column(String)
-    user_id = Column(String)
-    channel_id = Column(String)
-    message_id = Column(String)
     epoch_time = Column(Integer, nullable=False)
 
 
-class TimeCounts(Base):
-    __tablename__ = 'timecounts'
+class AmongusUserRanks(Base):
+    __tablename__ = 'amongus_userranks'
 
     id = Column(Integer, primary_key=True)
     user_id = Column(String)
     time_counts = Column(Integer, server_default = "0")
     epoch_time = Column(Integer, nullable=False)
-
 
 
 Base.metadata.create_all(engine)
@@ -57,81 +48,61 @@ Base.metadata.create_all(engine)
 # - Create
 # - Read
 # - Update
-# - Destory
+# - Delete
 
-def create_notice(guild_id, channel_id):
+def create_amongus_plan(guild_id, channel_id, author_id, message_id, epoch_time):
     session = sessionmaker(engine)()
-    notice = Notices(guild_id=guild_id, channel_id=channel_id, epoch_time=int(time()))
-    session.add(notice)
-    session.commit()
-    session.close()
-
-def read_notices():
-    session = sessionmaker(engine)()
-    notices = session.query(Notices).all()
-    session.close()
-    return notices
-
-def update_notice(guild_id, channel_id):
-    session = sessionmaker(engine)()
-    notice = session.query(Notices).filter(Notices.guild_id==guild_id).first()
-    notice.channel_id = channel_id
-    session.commit()
-    session.close()
-
-def create_plan(user_id, channel_id, message_id, epoch_time):
-    session = sessionmaker(engine)()
-    plan = Plans(user_id=user_id, channel_id=channel_id, message_id=message_id, epoch_time=epoch_time)
+    plan = AmongusPlans(guild_id=guild_id, channel_id=channel_id, author_id=author_id, message_id=message_id, epoch_time=epoch_time)
     session.add(plan)
     session.commit()
     session.close()
 
-def read_plans():
+def read_amongus_plans():
     session = sessionmaker(engine)()
-    plans = session.query(Plans).all()
+    plans = session.query(AmongusPlans).all()
     session.close()
     return plans
 
-def create_reaction(stump, user_id, channel_id, message_id):
+def create_amongus_reaction(message_id, user_id, stump, epoch_time):
     session = sessionmaker(engine)()
-    reaction = Reactions(stump=stump, user_id=user_id, channel_id=channel_id, message_id=message_id, epoch_time=int(time()))
+    reaction = AmongusReactions(message_id=message_id, user_id=user_id, stump=stump, epoch_time=epoch_time)
     session.add(reaction)
     session.commit()
     session.close()
 
-def read_reactions():
+def read_amongus_reactions():
     session = sessionmaker(engine)()
-    reactions = session.query(Reactions).all()
+    reactions = session.query(AmongusReactions).all()
     session.close()
     return reactions
 
-def update_reaction(stump, user_id, channel_id, message_id):
+def update_amongus_reaction(message_id, user_id, stump):
     session = sessionmaker(engine)()
-    reaction = session.query(Reactions).filter(
-        and_(Reactions.user_id==user_id, Reactions.channel_id==channel_id, Reactions.message_id==message_id
+    reaction = session.query(AmongusReactions).filter(
+        and_(AmongusReactions.message_id==message_id, AmongusReactions.user_id==user_id
         )).first()
     reaction.stump = stump
     session.commit()
     session.close()
 
-def create_timecounts(user_id):
+def create_amongus_user_rank(user_id):
     session = sessionmaker(engine)()
-    timecounts = TimeCounts(user_id=user_id, epoch_time=int(time()))
-    session.add(timecounts)
+    user_rank = AmongusUserRanks(user_id=user_id, epoch_time=0)
+    session.add(user_rank)
     session.commit()
     session.close()
 
-def read_timecounts():
+def read_amongus_user_ranks():
     session = sessionmaker(engine)()
-    timecounts = session.query(TimeCounts).all()
+    user_ranks = session.query(AmongusUserRanks).all()
     session.close()
-    return timecounts
+    return user_ranks
 
-def update_timecounts(user_id, time_count):
+def update_amongus_user_ranks(user_id, time_count):
     session = sessionmaker(engine)()
-    timecounts = session.query(TimeCounts).filter(
-        and_(TimeCounts.user_id==user_id
+    user_rank = session.query(AmongusUserRanks).filter(
+        and_(AmongusUserRanks.user_id==user_id
         )).first()
-    timecounts.time_counts += time_count
+    user_rank.time_counts += time_count
     session.commit()
     session.close()

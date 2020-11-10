@@ -7,6 +7,9 @@ test.db
 # Discord TOKEN Key
 mytoken.py
 
+# Test
+test.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
