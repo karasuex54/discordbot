@@ -135,9 +135,12 @@ class Amongus(commands.Cog):
 
     @tasks.loop(seconds = 5.0)
     async def loop_function(self):
-        print('aiueo')
-        await self.count_time_in_voice_channel()
-        await self.update_plan()
+        print('loop_function')
+        try:
+            await self.count_time_in_voice_channel()
+            await self.update_plan()
+        except:
+            pass
         #await self.give_role()
 
 

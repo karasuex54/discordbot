@@ -1,6 +1,8 @@
 # VScode
 .vscode/
 
+reports/
+
 # test phase DataBase
 test.db
 
